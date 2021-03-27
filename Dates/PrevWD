@@ -1,0 +1,26 @@
+@Weekday; @StartDate
+
+// Ползвательская функция Dates_PrevWD возвращает дату последнего (ближайшего к указанно дате) 
+//  "понедельника" (или другого дня недели)
+
+//	Параметры:
+//		@Weekday - номер интересующего дня недели
+//		@StartDate - дата, от которой производится отсчет, по умолчанию -	текущая дата
+		
+//	Возвращаемое значение:
+//		дата в формате "ДД.ММ.ГГГГ". Возвращаемое значение всегда меньше  
+//		@StartDate на 1-7 дней
+		
+//	Пример вызова:
+//		@sun:=$Dates_PrevWD(7) - конец предыдущей недели
+//		@deadline:=$Dates_PrevWD(5,"01.01.2021") - последняя пятница в 2020 году
+
+if not(@StartDate) then @StartDate := @currentdate
+if checkdate(@StartDate) & (@Weekday >=1) & (@Weekday <= 7) then [
+	@wd:=$Dates_Weekday(@StartDate)
+	@date:=subage(@StartDate,(@wd - @Weekday)<<".00.0000")
+	if date(@date) >= date(@StartDate) then
+		@ret:=subage(@date,"07.00.0000")
+	else
+		@ret:=@date
+]
