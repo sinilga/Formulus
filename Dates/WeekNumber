@@ -1,0 +1,19 @@
+@Date
+
+// Пользовательская функция Dates_WeekNumber возвращает номер недели в году
+
+//	Параметры:
+//		@Date - дата. По умолчанию - текущая дата
+		
+//	Возвращаемое значение:
+//		число 1-53 - порядковый номер недели в году 
+
+if not(@Date) then @Date := @currentdate
+
+if $Dates_WeekDay(@Date) = 7 then 
+	@weekend:=@Date
+else	
+	@weekend:=$Dates_NextWD(7,@Date)
+@dn:=date(@weekend) - date("01.01."<<field(@Date,".",3)) + 1
+
+@ret:=int(@dn / 7) + (@dn % 7 > 0)
