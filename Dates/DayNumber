@@ -1,0 +1,16 @@
+@Date
+
+// Функция Dates_DayNumber возвращает номер указанного дня в году
+
+//	Параметры:
+//		@Date - дата. По умолчанию - текущая дата
+		
+//	Возвращаемое значение:
+//		число 1-365 (366) - порядковый номер дня в году 
+		
+if not(@Date) then @Date := @currentdate
+
+if checkdate(@Date) then [
+	@year:=field(@Date,".",3)
+	@ret:=date(@Date) - date("01.01."<<@year) + 1
+]	
