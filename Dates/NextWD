@@ -1,0 +1,28 @@
+@Weekday; @StartDate; 
+
+// Пользовательская функция Dates_NextWD вовращает дату следующего "понедельника" (или другого дня недели)
+
+//	Параметры:
+//		@Weekday - номер интересующего дня недели (1 - пн, 2- вт, ..., 7 - вс)
+//		@StartDate - дата, от которой производится отсчет, по умолчанию - текущая дата
+
+//	Возвращаемое значение:
+//		дата в формате "ДД.ММ.ГГГГ". Возвращаемое значение 
+//		всегда больше значения @Weekday на 1-7 дней
+		
+//	Пример вызова:
+//		@weekend:=$Dates_NextWD(6) - следующая суббота от текущей даты
+//		@mon:=$Dates_NextWD(1,"31.12.2020") - первый понедельник в 2021 году
+//		@next_mon:=$Dates_NextWD(7,"31.03.2021") - День геолога (первое воскресеье апреля)
+
+
+if NOT(@StartDate) then @StartDate := @currentdate
+	
+if checkdate(@StartDate) & (@WeekDay >= 1) & (@WeekDay <= 7) then [
+	@startwd:=$Dates_Weekday(@StartDate)
+	@date:=addage(@StartDate,(@WeekDay - @startwd) << ".00.0000")
+	if date(@date) <= date(@StartDate) then
+		@ret:=addage(@date,"07.00.0000")
+	else
+		@ret:=@date
+]	
