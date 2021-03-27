@@ -1,0 +1,22 @@
+@Date; 
+
+//	Функция Dates_CurWeekBounds возвращает границы недели пн-пт? к кторой относится указанная дата
+
+//	Параметры:
+//		@Date - дата, от которой производится отсчет, по умолчанию - текущая дата
+	
+//	Возвращаемое значение:
+//		массив из двух значений, определяющих даты 
+//		понедельника и воскресенья недели 
+
+if NOT(@Date) then @Date := @currentdate
+
+if $Dates_Weekday(@Date) = 1 then
+	@ret[1]:=@Date
+else
+	@ret[1]:=$Dates_Prevwd(1,@Date)
+	
+if $Dates_Weekday(@Date) = 7 then
+	@ret[2]:=@Date
+else
+	@ret[2]:=$Dates_Nextwd(7,@Date)
