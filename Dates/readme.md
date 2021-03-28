@@ -1,7 +1,7 @@
 # Dates
 набор пользовательских функций для работы с датами.
 
-### [Dates_CurMonthBounds](/CurMonthBounds)
+### [Dates_CurMonthBounds](/Dates/CurMonthBounds)
 
 Возвращает границы указанного месяца.
 
@@ -32,7 +32,7 @@
 В переменной `@ret` будет содержаться дата последнего дня текущего месяца.
 
 
-### Dates_CurWeekBounds 
+### [Dates_CurWeekBounds](Dates/CurWeekBounds) 
 Возвращает границы недели пн-вс, к которой относится указанная дата.
 
 **Параметры**
