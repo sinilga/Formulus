@@ -1,7 +1,7 @@
 # Dates
 набор пользовательских функций для работы с датами.
 
-### [https://github.com/sinilga/Formulus/blob/main/Dates/CurMonthBounds]Dates_CurMonthBounds
+### [Dates_CurMonthBounds](/CurMonthBounds)
 
 Возвращает границы указанного месяца.
 
