@@ -14,8 +14,8 @@
 //		первого и последнего дня месяца 
 			
 //	Пример вызова
-//		@n := $Dates_CurMonth(Bounds(3,1987) - [01.03.1987;31.02.1987]
-//		@n := $Dates_CurMonth(Bounds() - даты начала и окончания текущего месяца
+//		@n := $Dates_CurMonthBounds(3,1987) - [01.03.1987;31.03.1987]
+//		@n := $Dates_CurMonthBounds() - даты начала и окончания текущего месяца
 	
 if not(@Month) then @Month := @currentdate
 	
