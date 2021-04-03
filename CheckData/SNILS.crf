@@ -1,0 +1,22 @@
+@СНИЛС
+@ret:=0
+
+if len(convert(@СНИЛС,"0123456789","")) # 0 then goto end
+if len(@СНИЛС) # 11 then goto end
+if substr(@СНИЛС,1,9) <= 001001998 then
+	@ret:=1
+else 
+[	@num:=0; @i:=9
+	while @i >= 1 do
+	[	@num := @num + (10-@i)*substr(@СНИЛС,@i,1)
+		@i := @i - 1	
+	]
+
+	@cs := (@num % 101)%100
+	@suf:=substr(@СНИЛС,10,2)+0
+	if @cs = @suf then
+		@ret:=1
+	else @ret := -1 * @cs	
+	
+]
+end:	
