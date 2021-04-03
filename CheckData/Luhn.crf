@@ -1,3 +1,5 @@
+// Проверка значения алгоритмом Луна
+
 @value
 if not(onlynums(@value)) then goto end
 
