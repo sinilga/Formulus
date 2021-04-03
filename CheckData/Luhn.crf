@@ -1,0 +1,15 @@
+@value
+if not(onlynums(@value)) then goto end
+
+@sum:=0	
+@i:=len(@value)
+while @i >= 2 do [
+	@n1:=substr(@value,@i,1) + 0
+	@n2:=substr(@value,@i-1,1) * 2
+	if @n2 > 9 then @n2:=@n2 - 9 
+	@sum = @sum + @n1 + @n2
+	@i:=@i - 2	
+]	
+@ret:= (@sum % 10 = 0)
+
+end:	
