@@ -1,0 +1,49 @@
+@ИНН;
+@ret:=0
+if len(convert(@ИНН,"0123456789","")) # 0 then 
+	goto end		// должны быть только цифры
+
+if (len(@ИНН) # 10) & (len(@ИНН) # 12) then 
+	goto end		// должно быть 10 или 12 цифр
+
+@k10:=swap("2;4;10;3;5;9;4;6;8",";",@valueseparator)	
+@k12_1:=swap("7;2;4;10;3;5;9;4;6;8",";",@valueseparator)	
+@k12_2:=swap("3;7;2;4;10;3;5;9;4;6;8",";",@valueseparator)	
+
+if len(@ИНН) = 10 then
+[	@num:=0; @i:=1
+	while @i <= valcount(@k10) do
+	[	@num := @num + @k10(@i) * substr(@ИНН,@i,1)
+		@i := @i + 1	
+	]
+	@cs := (@num % 11)%10
+	@suf:=substr(@ИНН,10,1)+0
+	if @cs = @suf then
+		@ret:=1
+	else
+		@ret:="-"<<@cs
+]
+else
+[	@num11:=0; @i:=1
+	while @i <= valcount(@k12_1) do
+	[	@num11 := @num11 + @k12_1(@i) * substr(@ИНН,@i,1)
+		@i := @i + 1	
+	]
+	@cs11 := (@num11 % 11)%10
+	@suf11:=substr(@ИНН,11,1)+0
+	
+	@num12:=0; @i:=1
+	while @i <= valcount(@k12_2) do
+	[	@num12 := @num12 + @k12_2(@i) * substr(@ИНН,@i,1)
+		@i := @i + 1	
+	]
+	@cs12 := (@num12 % 11)%10
+	@suf12:=substr(@ИНН,12,1)+0
+
+	if ((@cs11 = @suf11) & (@cs12 = @suf12)) then
+		@ret:=1
+	else
+		@ret:= -10*@cs11 - @cs12
+]
+
+end:	
