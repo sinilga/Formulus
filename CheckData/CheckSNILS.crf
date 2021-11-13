@@ -16,7 +16,7 @@ else
 	@suf:=substr(@СНИЛС,10,2)+0
 	if @cs = @suf then
 		@ret:=1
-	else @ret := -1 * @cs	
+	else @ret := 0	
 	
 ]
 end:	
