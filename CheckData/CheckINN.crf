@@ -43,7 +43,7 @@ else
 	if ((@cs11 = @suf11) & (@cs12 = @suf12)) then
 		@ret:=1
 	else
-		@ret:= -10*@cs11 - @cs12
+		@ret:= 0
 ]
 
 end:	
