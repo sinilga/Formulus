@@ -47,7 +47,7 @@ else [
 В результате будет выведено сообщение: "4 matches: going, gets, get, going"
 
 
-### [rexReplace](rexReplace)
+### [rexReplace](rexReplace.crf)
 Замена подстроки в строке с использованием регулярных выражений.
 
 **Параметры**
