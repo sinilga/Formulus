@@ -1,28 +1,29 @@
 @val; @proc 
 
-if @proc = "IP" then [
-//	Проверка на IP: четыре группы чисел 0-255
-	@str := swap(" ","")
-	if regexpfind(@str,1,"[^0-9\.]") > 0 then [
+if @proc = "PHONE" then [
+	@str := trim(@val)
+	if convert(@str,"0123456789+- ()","") then [
 		@ret:=0
 		goto end
 	]	
-	@t = swap(@str,".",_fm)
-	if valcount(@t) # 4 then [
+	@num := convert(@str,convert(@str,"+0123456789",""),"")
+	
+	@plus := (substr(@str,1,1) = "+")
+	if @plus then @num:=substr(@num,2,len(@num)-1)
+	
+	if convert(@num,"0123456789","") then [
 		@ret:=0
 		goto end
+	]
+	
+	if len(@num) > 6 & len(@num) < 16 then	[
+		if @plus then @num:="+"<<@num
+		@ret:=1
+		@ret(2):=@num
+		goto end
 	]	
-	@i:=1
-	while @i <= valcount(@t) do [
-		if @t[@i] > 255 then [
-			@ret:=0
-			goto end
-		]
-		@i:=@i+1
-	]			
-	@ret:=1
 	goto end
-]	
+]
 
 if @proc = "EMAIL" then [
 //	Проверка на E-mail: присутствует точно 1 знак "собаки", он не первый, 
@@ -77,43 +78,18 @@ if @proc = "WEB" then [
 	goto end
 ]
 
-if @proc = "PHONE" then [
-	@str := trim(@val)
-	if convert(@str,"0123456789+- ()","") then [
-		@ret:=0
-		goto end
-	]	
-	@num := convert(@str,convert(@str,"+0123456789",""),"")
-	
-	@plus := (substr(@str,1,1) = "+")
-	if @plus then @num:=substr(@num,2,len(@num)-1)
-	
-	if convert(@num,"0123456789","") then [
-		@ret:=0
-		goto end
-	]
-	
-	if len(@num) > 6 & len(@num) < 16 then	[
-		if @plus then @num:="+"<<@num
-		@ret:=1
-		@ret(2):=@num
-		goto end
-	]	
-	goto end
-]
-
-@list:=swap("IP,EMAIL,WEB,PHONE",",",_fm)
-@codes:=swap(",30000,20000,10000",",",_fm)
+//  main
+@list:=swap("PHONE,EMAIL,WEB",",",_fm)
 @i:=1
 while @i <= valcount(@list) do [
 	@res:=$ContactType(@val,@list[@i])
 	if @res then [
 		@ret:=@res
-		@ret[1]:=@codes[@i]
+		@ret[1]:=@list[@i]
 		goto end
 	]	
 	@i:=@i+1
 ]
-@ret:=0
+@ret:=""
 
 end:
