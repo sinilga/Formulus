@@ -1,3 +1,4 @@
+```
 @str; 
 @tmpl; 
 @sub; 
@@ -28,3 +29,4 @@ if @tmp < 0 then [
 else @ret:=@tmp
 
 end:
+```
