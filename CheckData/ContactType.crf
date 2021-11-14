@@ -1,0 +1,95 @@
+@val; @proc 
+
+if @proc = "PHONE" then [
+	@str := trim(@val)
+	if convert(@str,"0123456789+- ()","") then [
+		@ret:=0
+		goto end
+	]	
+	@num := convert(@str,convert(@str,"+0123456789",""),"")
+	
+	@plus := (substr(@str,1,1) = "+")
+	if @plus then @num:=substr(@num,2,len(@num)-1)
+	
+	if convert(@num,"0123456789","") then [
+		@ret:=0
+		goto end
+	]
+	
+	if len(@num) > 6 & len(@num) < 16 then	[
+		if @plus then @num:="+"<<@num
+		@ret:=1
+		@ret(2):=@num
+		goto end
+	]	
+	goto end
+]
+
+if @proc = "EMAIL" then [
+//	Проверка на E-mail: присутствует точно 1 знак "собаки", он не первый, 
+//	после него как минимум два слова, разделенных точкой, 
+//	после последней точки не менее двух букв
+//	(здесь и в проверке WEB считаем, что имя домена верхнего уровня состоит из букв и имеет длину не менее 2).
+	@str := trim(@val)
+	if scount(@str,"@") # 1 then [
+		@ret := 0
+		goto end
+	]	
+	if regexpfind(@str,1,"\w+(\.\w+)*@\w+\.[A-ZА-ЯЁ]{2,}") > 0 then [
+		@ret:=1
+		goto end
+	]
+	if regexpfind(@str,1,quote(".+")<<"@\w+\.[A-ZА-ЯЁ]{2,}") > 0 then [
+		@ret:=1
+		goto end
+	]
+	goto end
+]
+
+if @proc = "WEB" then [
+//	проверка на адрес в WEB с коррекцией
+	@str := trim(@val)
+	if scount(@str,"@") then [
+		@ret:=0
+		goto end
+	]	
+	
+	//	Заменяем разделители / на \
+	@str := convert(@str,"/","\")
+
+	//	Отсекаем префиксы http:\\ и т.п.
+	@tmp := regexpreplace(@str,"^.+:\\\\","")
+	if @tmp > 0 then @str:=@tmp
+	
+	//	Отсекаем параметры запроса
+	@pos:=index(@str,"?",1)
+	if @pos then @str := substr(@str,1,@pos-1)
+	
+	@dom:=field(@str,"\",1)
+	@dots:=scount(@dom,".")
+	if @dots > 0 then [
+		@top:=field(@dom,".",@dots+1)
+		if regexpfind(@top,1,"^[A-ZА-ЯЁ]{2,}$") > 0 then [
+			@ret:=1
+			@ret[2]:=@str
+			goto end
+		]
+	]
+	goto end
+]
+
+//  main
+@list:=swap("PHONE,EMAIL,WEB",",",_fm)
+@i:=1
+while @i <= valcount(@list) do [
+	@res:=$ContactType(@val,@list[@i])
+	if @res then [
+		@ret:=@res
+		@ret[1]:=@list[@i]
+		goto end
+	]	
+	@i:=@i+1
+]
+@ret:=""
+
+end:

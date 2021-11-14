@@ -1,0 +1,32 @@
+@card
+/*
+
+	Возвращаемое значение:
+	2 - карта "Мир"
+	4 - карта "Visa"
+	5 - карта "MasterCard"
+	0 - другое
+	-1 - некорректный номер карты
+	
+*/
+@card:=convert(@card," -","")
+
+if convert(@card,"0123456789","") then [
+	@ret:=-1
+	goto end
+]
+
+if len(@card) # 16 then [
+	@ret:=-1
+	goto end
+]
+
+if NOT($Luhn(@card)) then [
+	@ret:=-1
+	goto end
+]
+
+@ret:=substr(@card,1,1)
+if (@ret # 2) & (@ret # 4) & (@ret # 5) then @ret:=0
+
+end:

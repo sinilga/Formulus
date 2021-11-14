@@ -1,3 +1,5 @@
+@name;
+
 /*
   Проверка корректности ввода фамилии в русском написании.
   Допускаются символы: кириллица, дефис, пробел
@@ -11,32 +13,33 @@
 @symbol:=" -"
 
 // Автокоррекция типичных опечаток:
-@ret:=latrus(trim(@ret))
-while index(@ret,"- ",1)>0 do
-[	@ret:=swap(@ret,"- ","-")
+@name:=latrus(trim(@name))
+while index(@name,"- ",1) > 0 do
+[	@name:=swap(@name,"- ","-")
 ]	
-while index(@ret," -",1)>0 do
-[	@ret:=swap(@ret," -","-")
+while index(@name," -",1) > 0 do
+[	@ret:=swap(@name," -","-")
 ]	
-while index(@ret,"--",1)>0 do
-[	@ret:=swap(@ret,"--","-")
+while index(@name,"--",1) > 0 do
+[	@name:=swap(@name,"--","-")
 ]	
 
 // Проверка значения
-@val:=trim(upper(@ret))
+@ret:=@name
+@name:=trim(upper(@name))
 
-@bad:=convert(@val,@alpha<<@symbol,"")
+@bad:=convert(@name,@alpha<<@symbol,"")
 if @bad then
 [	@ret(2):="Значение содержит недопустимые символы: "<<@endofline
 	@ret(2):=@ret(2)<<@bad
 	goto end	
 ]
-if not(checksymbol(substr(@val,1,1),@alpha)) then
+if not(checksymbol(substr(@name,1,1),@alpha)) then
 [	@ret(2):="Ошибка в первом символе:"<<@endofline
 	@ret(2):=@ret(2)<<"Значение должно начинаться с буквы"
 	goto end	
 ]	
-if not(checksymbol(substr(@val,len(@val),1),@alpha)) then
+if not(checksymbol(substr(@name,len(@name),1),@alpha)) then
 [	@ret(2):="Ошибка в последнем символе:"<<@endofline
 	@ret(2):=@ret(2)<<"Значение должно заканчиваться буквой"
 	goto end	
