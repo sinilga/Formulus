@@ -22,7 +22,7 @@ if @tmp = 0 then [
 	@ret[2]:=@@ErrorText
 	goto end
 ]
-if @tmp < 0 then [
+if @tmp = -1 then [
 	@ret:=@str
 ]
 else @ret:=@tmp
