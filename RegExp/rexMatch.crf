@@ -28,7 +28,9 @@ while @i <=len(@tmpl) do [
 ]
 if @n = 0 then 
 	@ret:=@str
-else
+else [
 	@ret:=$rexReplace(@str,@tmpl,@f,@case)
+	@ret:=$rexReplace(@ret,_fm<<"+$","",@case)
+]
 
 end:
