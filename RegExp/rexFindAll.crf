@@ -27,7 +27,7 @@
 @pos:=1
 while @pos <= len(@str) do [
 	@a:=regexpfind(@str,@pos,@rex,@case)
-	if @a < 0 then [
+	if @a = -1 then [
 		goto end
 	]
 	else if @a = 0 then [
