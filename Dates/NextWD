@@ -13,16 +13,15 @@
 //	Пример вызова:
 //		@weekend:=$Dates_NextWD(6) - следующая суббота от текущей даты
 //		@mon:=$Dates_NextWD(1,"31.12.2020") - первый понедельник в 2021 году
-//		@next_mon:=$Dates_NextWD(7,"31.03.2021") - День геолога (первое воскресеье апреля)
+//		@next_mon:=$Dates_NextWD(7,"31.03.2021") - День геолога (первое воскресенье апреля)
 
 
 if NOT(@StartDate) then @StartDate := @currentdate
 	
 if checkdate(@StartDate) & (@WeekDay >= 1) & (@WeekDay <= 7) then [
 	@startwd:=$Dates_Weekday(@StartDate)
-	@date:=addage(@StartDate,(@WeekDay - @startwd) << ".00.0000")
-	if date(@date) <= date(@StartDate) then
-		@ret:=addage(@date,"07.00.0000")
-	else
-		@ret:=@date
+	@delta:= @WeekDay - @startwd
+	if @delta < 0 then
+		@delta:= 7 + @delta
+		@date:=addage(@StartDate,(@WeekDay - @startwd) << ".00.0000")
 ]	
