@@ -21,7 +21,6 @@ if NOT(@StartDate) then @StartDate := @currentdate
 if checkdate(@StartDate) & (@WeekDay >= 1) & (@WeekDay <= 7) then [
 	@startwd:=$Dates_Weekday(@StartDate)
 	@delta:= @WeekDay - @startwd
-	if @delta < 0 then
-		@delta:= 7 + @delta
-		@date:=addage(@StartDate,(@WeekDay - @startwd) << ".00.0000")
+	if @delta <= 0 then	@delta:= 7 + @delta
+	@ret:=addage(@StartDate,@delta << ".00.0000")
 ]	
