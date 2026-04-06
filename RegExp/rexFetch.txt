@@ -1,0 +1,20 @@
+@vals;	//массив значений (одномерный)
+@rex;	// выражение фильтра (regexp)
+@case;	// учитывать регистр
+@neg;	// инвертировать результат
+@r:=""
+
+@n:=valcount(@vals)
+if @n = 0 then goto end
+
+@i:=1
+while <= do [
+	@ok:=$$rexMatch(@vals (@i), @rex, @case)
+	if (not (@neg) & @ok) | (@neg & not (@ok))
+		@r(-1) :=@vals(@i)
+	@i:=@i+1	
+]
+
+@ret:=@r
+
+end:
