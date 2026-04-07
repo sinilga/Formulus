@@ -8,9 +8,9 @@
 if @n = 0 then goto end
 
 @i:=1
-while <= do [
+while @i <= @n do [
 	@ok:=$rexMatch(@vals (@i), @rex, @case)
-	if (not (@neg) & @ok) | (@neg & not (@ok))
+	if (not (@neg) & @ok) | (@neg & not (@ok)) then
 		@r(-1) :=@vals(@i)
 	@i:=@i+1	
 ]
